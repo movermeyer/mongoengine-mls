@@ -7,8 +7,8 @@ readme = open(join(here, "README.rst"))
 
 setup(
     name="mongoengine-mls",
-    version="1.0.2",
-    py_modules=["mongoengine_msl"],
+    version="1.0.3",
+    py_modules=["mongoengine_mls"],
     url="https://github.com/rembish/mongoengine-mls",
     license="BSD",
     author="Aleksey Rembish",
