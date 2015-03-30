@@ -4,11 +4,10 @@ from setuptools import setup
 
 here = abspath(dirname(__file__))
 readme = open(join(here, "README.rst"))
-requirements = open(join(here, "requirements.txt"))
 
 setup(
     name="mongoengine-mls",
-    version="1.0.0",
+    version="1.0.2",
     py_modules=["mongoengine_msl"],
     url="https://github.com/rembish/mongoengine-mls",
     license="BSD",
@@ -16,5 +15,5 @@ setup(
     author_email="alex@rembish.org",
     description="MultiLingualField for MongoEngine",
     long_description="".join(readme.readlines()),
-    install_requires=requirements.readlines()
+    install_requires=["mongoengine", "mls"]
 )
