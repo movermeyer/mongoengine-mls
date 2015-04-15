@@ -1,13 +1,8 @@
 #!/usr/bin/env python
-# coding=utf-8
 from copy import deepcopy
-from locale import setlocale, LC_ALL
-from mongoengine.connection import connect
-from mongoengine.document import EmbeddedDocument, Document
+from mongoengine.document import EmbeddedDocument
 from mongoengine.fields import EmbeddedDocumentListField, StringField
 from mls import mls
-from uuid import uuid4
-from weakref import proxy
 
 __all__ = ["MultiLingualField"]
 
@@ -40,8 +35,6 @@ class MultiLingualField(EmbeddedDocumentListField):
             except:
                 instance._mark_as_changed(self.name)
 
-        if isinstance(value, EmbeddedDocument):
-            value._instance = proxy(instance)
         instance._data[self.name] = value
 
     def to_python(self, value):
@@ -78,67 +71,3 @@ class MultiLingualField(EmbeddedDocumentListField):
                                "string/unicode as it's value.")
         elif not isinstance(value, (mls, basestring, dict)):
             super(MultiLingualField, self).validate(value)
-
-
-if __name__ == "__main__":
-    class Country(Document):
-        meta = {"collection": uuid4().hex}
-
-        code = StringField(required=True, min_length=2, max_length=2)
-        name = MultiLingualField(required=True)
-
-    setlocale(LC_ALL, "en_US.UTF_8")
-    connect("test")
-
-    try:
-        Country(
-            code="ru", name=mls(ru=u"Россия", en="Russia", cs="Rusko")
-        ).save()
-        Country(
-            code="cz", name=mls(ru=u"Чехия", en="Czech Republic", cs=u"Česko")
-        ).save()
-
-        ru = Country.objects.first()
-        assert ru.code == "ru"
-        assert str(ru.name) == "Russia"
-
-        ru.name <<= "Russian Federation"
-        ru.save()
-
-        ru2 = Country.objects.first()
-        assert repr(ru2.name) == "en'Russian Federation'"
-        assert unicode(ru2.name >> "cs") == u"Rusko"
-
-        cz = Country.objects[1]
-        assert isinstance(cz.name, mls)
-
-        cz.name = [
-            {"language": "cs", "value": u"Česká republika"},
-            {"language": "en", "value": "Czech Republic"},
-            {"language": "ru", "value": u"Чешская Республика"},
-        ]
-        cz.save()
-
-        cz2 = Country.objects[1]
-        assert unicode(cz2.name >> "ru") == u"Чешская Республика"
-
-        ru2.name = {
-            "ru": u"Российская Федерация",
-            "cs": u"Ruská federace",
-            "en": "Russian Federation"
-        }
-        ru2.save()
-
-        ru3 = Country.objects[0]
-        assert unicode(ru3.name.translate_to("cs")) == u"Ruská federace"
-
-        cz2.name = u"Czech Republic"  # Removing all mutations except en_US
-        cz2.save()
-
-        cz3 = Country.objects[1]
-        assert str(cz3.name) == "Czech Republic"
-        assert unicode(cz3.name >> "cs") == u"Czech Republic"
-
-    finally:
-        pass
-        Country.drop_collection()

@@ -1,4 +1,4 @@
 *.pyc
-*.egg-iwanfo
+*.egg-info
 build/
 dist/

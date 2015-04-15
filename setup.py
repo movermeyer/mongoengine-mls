@@ -15,5 +15,6 @@ setup(
     author_email="alex@rembish.org",
     description="MultiLingualField for MongoEngine",
     long_description="".join(readme.readlines()),
-    install_requires=["mongoengine", "mls"]
+    install_requires=["mongoengine", "mls"],
+    test_suite="tests",
 )
