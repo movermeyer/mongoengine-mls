@@ -1,7 +1,10 @@
 # coding=utf-8
 from locale import setlocale, LC_ALL
 from uuid import uuid4
-from mongoengine.errors import ValidationError
+try:
+    from mongoengine.errors import ValidationError
+except ImportError:
+    from mongoengine.base import ValidationError
 from mls import mls
 from mongoengine.connection import connect
 from mongoengine.document import Document
@@ -119,7 +122,6 @@ class TestCase(BaseTestCase):
         xy.save()
 
         xy2 = Country.by_code("xy")
-
         self.assertTrue(xy2.nullable is None)
 
         xy2.nullable = "XY"

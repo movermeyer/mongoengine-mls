@@ -1,0 +1,5 @@
+python-mongoengine-mls (1.1.0) UNRELEASED; urgency=medium
+
+  * Initial release.
+
+ -- Aleksey Rembish <alex@rembish.org>  Fri, 17 Apr 2015 15:39:00 +0200

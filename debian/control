@@ -1,0 +1,21 @@
+Source: python-mongoengine-mls
+Section: python
+Priority: extra
+Maintainer: Aleksey Rembish <alex@rembish.org>
+Build-Depends:
+ debhelper (>= 9),
+ dh-python,
+ python,
+ python-setuptools, python-mongoengine, python-mls
+Standards-Version: 3.9.5
+X-Python-Version: >=2.6
+
+Package: python-mongoengine-mls
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${python:Depends},
+ python-mongoengine,
+ python-mls
+Description: MultiLingualField for MongoEngine
+ Unicode-like field for multiple language mutations.

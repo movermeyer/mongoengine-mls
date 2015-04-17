@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from copy import deepcopy
 from mongoengine.document import EmbeddedDocument
-from mongoengine.fields import EmbeddedDocumentListField, StringField
+from mongoengine.fields import ListField, EmbeddedDocumentField, StringField
 from mls import mls
 from sys import version_info
 __all__ = ["MultiLingualField"]
@@ -17,10 +17,12 @@ class MultiLingualEmbeddedDocument(EmbeddedDocument):
     value = StringField(required=True)
 
 
-class MultiLingualField(EmbeddedDocumentListField):
+class MultiLingualField(ListField):
     def __init__(self, **kwargs):
+        null = kwargs.pop("null", False)
         super(MultiLingualField, self).__init__(
-            MultiLingualEmbeddedDocument, **kwargs)
+            field=EmbeddedDocumentField(MultiLingualEmbeddedDocument), **kwargs)
+        self.null = null
 
     def __set__(self, instance, value):
         if value is None:
@@ -38,6 +40,12 @@ class MultiLingualField(EmbeddedDocumentListField):
                 instance._mark_as_changed(self.name)
 
         instance._data[self.name] = value
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+
+        return instance._data.get(self.name)
 
     def to_python(self, value):
         if isinstance(value, mls):
