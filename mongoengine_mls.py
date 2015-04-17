@@ -40,9 +40,9 @@ class MultiLingualField(EmbeddedDocumentListField):
 
         value = super(MultiLingualField, self).to_python(value)
 
-        return mls({
-            item.language: item.value for item in value
-        })
+        return mls(dict(
+            (item.language, item.value) for item in value
+        ))
 
     def to_mongo(self, value):
         value = deepcopy(value)
