@@ -116,7 +116,7 @@ class TestCase(BaseTestCase):
 
         xy2 = Country.by_code("xy")
 
-        self.assertIsNone(xy2.nullable)
+        self.assertTrue(xy2.nullable is None)
 
         xy2.nullable = "XY"
         xy2.save()
