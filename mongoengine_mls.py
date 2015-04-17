@@ -3,9 +3,13 @@ from copy import deepcopy
 from mongoengine.document import EmbeddedDocument
 from mongoengine.fields import EmbeddedDocumentListField, StringField
 from mls import mls
-from six import string_types
-
+from sys import version_info
 __all__ = ["MultiLingualField"]
+
+if version_info < (3, 0, 0):
+    string_types = basestring
+else:
+    string_types = str
 
 
 class MultiLingualEmbeddedDocument(EmbeddedDocument):
