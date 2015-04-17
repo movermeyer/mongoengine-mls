@@ -8,6 +8,7 @@ from mongoengine.document import Document
 from mongoengine.fields import StringField
 from os import environ
 from unittest import TestCase as BaseTestCase
+from six import u
 
 from mongoengine_mls import MultiLingualField
 
@@ -38,10 +39,14 @@ class TestCase(BaseTestCase):
         )
 
         Country(
-            code="ru", name=mls(ru=u"Россия", en="Russia", cs="Rusko")
+            code="ru", name=mls(ru=u("Россия"), en="Russia", cs="Rusko")
         ).save()
         Country(
-            code="cz", name=mls(ru=u"Чехия", en="Czech Republic", cs=u"Česko")
+            code="cz", name=mls(
+                ru=u("Чехия"),
+                en="Czech Republic",
+                cs=u("Česko")
+            )
         ).save()
 
     def test_read(self):
@@ -58,7 +63,7 @@ class TestCase(BaseTestCase):
         ru2 = Country.by_code("ru")
 
         self.assertEqual(repr(ru2.name), "en'Russian Federation'")
-        self.assertEqual(unicode(ru2.name >> "cs"), u"Rusko")
+        self.assertEqual(ru2.name >> "cs", u("Rusko"))
 
     def test_rewrite_with_list(self):
         cz = Country.by_code("cz")
@@ -66,39 +71,38 @@ class TestCase(BaseTestCase):
         self.assertTrue(isinstance(cz.name, mls))
 
         cz.name = [
-            {"language": "cs", "value": u"Česká republika"},
+            {"language": "cs", "value": u("Česká republika")},
             {"language": "en", "value": "Czech Republic"},
-            {"language": "ru", "value": u"Чешская Республика"},
+            {"language": "ru", "value": u("Чешская Республика")},
         ]
         cz.save()
 
         cz2 = Country.by_code("cz")
 
-        self.assertEqual(unicode(cz2.name >> "ru"), u"Чешская Республика")
+        self.assertEqual(cz2.name >> "ru", u("Чешская Республика"))
 
     def test_rewrite_with_dict(self):
         ru2 = Country.by_code("ru")
         ru2.name = {
-            "ru": u"Российская Федерация",
-            "cs": u"Ruská federace",
+            "ru": u("Российская Федерация"),
+            "cs": u("Ruská federace"),
             "en": "Russian Federation"
         }
         ru2.save()
 
         ru3 = Country.by_code("ru")
 
-        self.assertEqual(
-            unicode(ru3.name.translate_to("cs")), u"Ruská federace")
+        self.assertEqual(ru3.name.translate_to("cs"), u("Ruská federace"))
 
     def test_remove_other(self):
         cz2 = Country.by_code("cz")
-        cz2.name = u"Czech Republic"  # Removing all mutations except en_US
+        cz2.name = u("Czech Republic")  # Removing all mutations except en_US
         cz2.save()
 
         cz3 = Country.by_code("cz")
 
         self.assertEqual(str(cz3.name), "Czech Republic")
-        self.assertEqual(unicode(cz3.name >> "cs"), u"Czech Republic")
+        self.assertEqual(cz3.name >> "cs", u("Czech Republic"))
 
     def test_invalids(self):
         xy = Country(code="xy")

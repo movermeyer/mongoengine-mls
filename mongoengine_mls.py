@@ -3,6 +3,7 @@ from copy import deepcopy
 from mongoengine.document import EmbeddedDocument
 from mongoengine.fields import EmbeddedDocumentListField, StringField
 from mls import mls
+from six import string_types
 
 __all__ = ["MultiLingualField"]
 
@@ -46,7 +47,7 @@ class MultiLingualField(EmbeddedDocumentListField):
 
     def to_mongo(self, value):
         value = deepcopy(value)
-        if isinstance(value, (dict, basestring)):
+        if isinstance(value, (dict, string_types)):
             value = mls(value)
 
         if isinstance(value, mls):
@@ -66,5 +67,5 @@ class MultiLingualField(EmbeddedDocumentListField):
                     self.error("MultiLingualField accepts MultiLingualString, "
                                "list of dictionaries, dictionary or "
                                "string/unicode as it's value.")
-        elif not isinstance(value, (mls, basestring, dict)):
+        elif not isinstance(value, (mls, string_types, dict)):
             super(MultiLingualField, self).validate(value)
