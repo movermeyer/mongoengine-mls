@@ -5,8 +5,8 @@ python:
 services:
   - mongodb
 install:
-  - pip install six coveralls mls
+  - pip install coveralls
 script:
-  coverage run --source=mls setup.py test
+  coverage run --source=mongoengine_mls setup.py test
 after_success:
   coveralls
