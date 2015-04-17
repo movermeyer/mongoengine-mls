@@ -27,12 +27,9 @@ class MultiLingualField(EmbeddedDocumentListField):
                     value = value()
 
         if instance._initialised:
-            try:
-                if self.name not in instance._data \
-                        or instance._data[self.name] != value \
-                        or type(instance._data[self.name]) != type(value):
-                    instance._mark_as_changed(self.name)
-            except:
+            if self.name not in instance._data \
+                    or instance._data[self.name] != value \
+                    or type(instance._data[self.name]) != type(value):
                 instance._mark_as_changed(self.name)
 
         instance._data[self.name] = value
