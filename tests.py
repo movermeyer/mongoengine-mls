@@ -63,7 +63,7 @@ class TestCase(BaseTestCase):
     def test_rewrite_with_list(self):
         cz = Country.by_code("cz")
 
-        self.assertIsInstance(cz.name, mls)
+        self.assertTrue(isinstance(cz.name, mls))
 
         cz.name = [
             {"language": "cs", "value": u"Česká republika"},
