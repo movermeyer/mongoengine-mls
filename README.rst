@@ -7,31 +7,31 @@ MultiLingualField for MongoEngine (for Python 2k and 3k)
 .. image:: https://coveralls.io/repos/rembish/mongoengine-mls/badge.svg
     :target: https://coveralls.io/r/rembish/mongoengine-mls
 
-.. image:: https://pypip.in/download/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/dm/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/version/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/v/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/py_versions/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/pyversions/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/implementation/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/implementation/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/status/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/status/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/wheel/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/wheel/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
 .. image:: https://pypip.in/egg/mongoengine-mls/badge.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/format/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/format/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
-.. image:: https://pypip.in/license/mongoengine-mls/badge.svg
+.. image:: https://img.shields.io/pypi/l/mongoengine-mls.svg
     :target: https://pypi.python.org/pypi/mongoengine-mls
 
 Simple extension for MongoEngine, which adds MultiLingualField (based on
